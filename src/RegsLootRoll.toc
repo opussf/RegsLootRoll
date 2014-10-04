@@ -1,0 +1,9 @@
+## Interface: 50400
+## Title: RegsLootRoll
+## Notes: Shows winners of loot rolls for Regulatør's Raid Loot rolls. @VERSION@
+## Author: opussf
+## Version: @VERSION@
+## Description: Regulatør's Raid Loot Loot Roll manager.
+## SavedVariables: RLR_history
+## SavedVariablesPerCharacter:
+RegsLootRoll.toc
