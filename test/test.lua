@@ -34,5 +34,19 @@ end
 function test.testGetNumGroupMembers()
 	assertEquals( 3, GetNumGroupMembers() )
 end
+function test.testEvent_PARTY_MEMBERS_CHANGED()
+	RLR.PARTY_MEMBERS_CHANGED()
+end
+function test.testEvent_GROUP_ROSTER_UPDATE()
+	RLR.GROUP_ROSTER_UPDATE()
+end
+function test.testFindLootMaster_index()
+	local index, name = RLR.FindLootMaster()
+	assertEquals( 3, index )
+end
+function test.testFindLootMaster_name()
+	local index, name = RLR.FindLootMaster()
+	assertEquals( "name3", name )
+end
 
 test.run()
