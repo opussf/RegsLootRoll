@@ -17,7 +17,8 @@ local itemDB = {
 myInventory = {}
 myCurrencies = {}
 -- set one of these to the number of people in the raid or party to reflect being in group or raid.
-myParty = { ["group"] = nil, ["raid"] = nil }
+-- roster should be an array for GetRaidRosterInfo
+myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
 outMail = {}
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
@@ -302,9 +303,9 @@ function GetNumGroupMembers()
 	-- http://www.wowwiki.com/API_GetNumGroupMembers
 	-- Returns number of people (include self) in raid or party, 0 if not in raid / party
 	if myParty.raid then
-		return myParty.raid
+		return #myParty.roster
 	else
-		return myParty.party
+		return #myParty.roster
 	end
 	return 0
 end
@@ -322,6 +323,9 @@ end
 function GetRaidRosterInfo( raidIndex )
 	-- http://www.wowwiki.com/API_GetRaidRosterInfo
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
+	if (myParty.raid or myParty.party) and myParty.roster then
+		return myParty.roster[raidIndex]
+	end
 
 end
 function GetRealmName()
