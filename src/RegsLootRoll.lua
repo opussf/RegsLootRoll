@@ -26,7 +26,7 @@ function RLR.OnLoad()
 	RLR.Print("is Loaded")
 end
 function RLR.GROUP_ROSTER_UPDATE()  -- Once debug is done, have these functions alias UpdatePartyInfo
-	RLR.Print("GROUP_ROSTER_UPDATE")
+	--RLR.Print("GROUP_ROSTER_UPDATE")
 	RLR.UpdatePartyInfo()
 end
 -- End Events
@@ -38,7 +38,7 @@ end
 function RLR.FindLootMaster()
 	-- returns the index, and their name
 	local numGroupMembers = GetNumGroupMembers()
-	RLR.Print("numGroupMembers: "..numGroupMembers )
+	--RLR.Print("numGroupMembers: "..numGroupMembers )
 	local mlName = nil
 	local index = 0
 	for i= 1, numGroupMembers do
