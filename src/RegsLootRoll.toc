@@ -6,5 +6,5 @@
 ## Description: Regulatør's Raid Loot Loot Roll manager.
 ## SavedVariables: RLR_history
 ## SavedVariablesPerCharacter:
-RegsLootRoll.toc
+RegsLootRoll.lua
 RegsLootRoll.xml
