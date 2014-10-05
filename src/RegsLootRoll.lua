@@ -15,24 +15,39 @@ COLOR_NEON_BLUE = "|cff4d4dff";
 COLOR_END = "|r";
 
 RLR = {}
+RLR.inRaid = false
+RLR.raidMasterLooter = {}
 
 -- Events
 function RLR.OnLoad()
 	SLASH_RLR1 = "/RLR"
 	SlashCmdList["RLR"] = function(msg) RLR.Command( msg ); end
-	RLR_Frame:RegisterEvent("PARTY_MEMBERS_CHANGED");
 	RLR_Frame:RegisterEvent("GROUP_ROSTER_UPDATE");
+	RLR.Print("is Loaded")
 end
-function RLR.PARTY_MEMBERS_CHANGED()
-	RLR.Print("PARTY_MEMBERS_CHANGED")
-end
-function RLR.GROUP_ROSTER_UPDATE()
+function RLR.GROUP_ROSTER_UPDATE()  -- Once debug is done, have these functions alias UpdatePartyInfo
 	RLR.Print("GROUP_ROSTER_UPDATE")
+	RLR.UpdatePartyInfo()
 end
 -- End Events
 
 -- Code
+function RLR.UpdatePartyInfo()
+	RLR.raidMasterLooter = RLR.FindLootMaster()
+end
 function RLR.FindLootMaster()
+	-- returns the index, and their name
+	local numGroupMembers = GetNumGroupMembers()
+	RLR.Print("numGroupMembers: "..numGroupMembers )
+	local mlName = nil
+	local index = 0
+	for i= 1, numGroupMembers do
+		mlName, _, _, _, _, _, _, _, _, _, isML = GetRaidRosterInfo( i )
+		if isML then index = i; break end
+	end
+
+	RLR.Print( string.format( "% 2i Members. %s is the MasterLooter", numGroupMembers, ( mlName or "nil" ) ) )
+	return index, mlName
 end
 
 -- End Code
@@ -47,21 +62,21 @@ function RLR.Print( msg, showName)
 	DEFAULT_CHAT_FRAME:AddMessage( msg )
 end
 function RLR.PrintHelp()
+	RLR.Print(RLR_MSG_ADDONNAME.." by "..RLR_MSG_AUTHOR.." version: "..RLR_MSG_VERSION);
+	for cmd, info in pairs(RLR.CommandList) do
+		RLR.Print(string.format("%s %s %s -> %s",
+			SLASH_RLR1, cmd, info.help[1], info.help[2]));
+	end
 end
 function RLR.ParseCmd(msg)
 	if msg then
-		local i,c = strmatch(msg, "^(|c.*|r)%s*(%d*)$")
-		if i then  -- i is an item, c is a count or nil
-			return i, c
-		else  -- Not a valid item link
-			msg = string.lower(msg)
-			local a,b,c = strfind(msg, "(%S+)")  --contiguous string of non-space characters
-			if a then
-				-- c is the matched string, strsub is everything after that, skipping the space
-				return c, strsub(msg, b+2)
-			else
-				return ""
-			end
+		msg = string.lower(msg)
+		local a,b,c = strfind(msg, "(%S+)")  --contiguous string of non-space characters
+		if a then
+			-- c is the matched string, strsub is everything after that, skipping the space
+			return c, strsub(msg, b+2)
+		else
+			return ""
 		end
 	end
 end
@@ -81,5 +96,9 @@ RLR.CommandList = {
 	["help"] = {
 		["func"] = RLR.PrintHelp,
 		["help"] = {"","Print this help."},
+	},
+	["test"] = {
+		["func"] = RLR.UpdatePartyInfo,
+		["help"] = {"","Show info."},
 	},
 }
