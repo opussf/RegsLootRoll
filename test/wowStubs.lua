@@ -16,6 +16,8 @@ local itemDB = {
 --myInventory = { ["9999"] = 52, }
 myInventory = {}
 myCurrencies = {}
+-- set one of these to the number of people in the raid or party to reflect being in group or raid.
+myParty = { ["group"] = nil, ["raid"] = nil }
 outMail = {}
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
@@ -296,6 +298,16 @@ function GetMerchantNumItems()
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
 	return count
 end
+function GetNumGroupMembers()
+	-- http://www.wowwiki.com/API_GetNumGroupMembers
+	-- Returns number of people (include self) in raid or party, 0 if not in raid / party
+	if myParty.raid then
+		return myParty.raid
+	else
+		return myParty.party
+	end
+	return 0
+end
 function GetNumRoutes( nodeId )
 	-- http://wowprogramming.com/docs/api/GetNumRoutes
 	-- returns numHops
@@ -306,6 +318,11 @@ function GetNumTradeSkills( )
 	local count = 0
 	for _ in pairs( TradeSkillItems ) do count = count + 1 end
 	return count
+end
+function GetRaidRosterInfo( raidIndex )
+	-- http://www.wowwiki.com/API_GetRaidRosterInfo
+	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
+
 end
 function GetRealmName()
 	return "testRealm"
@@ -355,6 +372,13 @@ function IsInGuild()
 	-- http://www.wowwiki.com/API_IsInGuild
 	-- 1, nil boolean return of being in guild
 	return 1
+end
+function IsInRaid()
+	-- http://www.wowwiki.com/API_IsInRaid
+	-- 1, nill boolean return of being in raid
+	-- myParty = { ["group"] = nil, ["raid"] = nil } -- set one of these to true to reflect being in group or raid.
+
+	return ( myParty["raid"] and 1 or nil )
 end
 function NumTaxiNodes()
 	-- http://www.wowwiki.com/API_NumTaxiNodes
