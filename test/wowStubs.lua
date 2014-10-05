@@ -324,7 +324,7 @@ function GetRaidRosterInfo( raidIndex )
 	-- http://www.wowwiki.com/API_GetRaidRosterInfo
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
 	if (myParty.raid or myParty.party) and myParty.roster then
-		return myParty.roster[raidIndex]
+		return unpack(myParty.roster[raidIndex]) -- unpack returns the array as seperate values
 	end
 
 end
