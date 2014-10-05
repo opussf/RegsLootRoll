@@ -7,3 +7,4 @@
 ## SavedVariables: RLR_history
 ## SavedVariablesPerCharacter:
 RegsLootRoll.toc
+RegsLootRoll.xml
