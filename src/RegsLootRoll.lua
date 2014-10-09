@@ -33,7 +33,11 @@ end
 
 -- Code
 function RLR.UpdatePartyInfo()
-	RLR.raidMasterLooter = RLR.FindLootMaster()
+	local previousName = RLR.raidMasterLooterName
+	RLR.raidMasterLooterIndex, RLR.raidMasterLooterName = RLR.FindLootMaster()
+	if (not previousName) and not (previousName == RLR.raidMasterLooterName)  then
+		RLR.Print( string.format( "%s (% 2i) is the MasterLooter", RLR.raidMasterLooterName, RLR.raidMasterLooterIndex ) )
+	end
 end
 function RLR.FindLootMaster()
 	-- returns the index, and their name
@@ -46,7 +50,7 @@ function RLR.FindLootMaster()
 		if isML then index = i; break end
 	end
 
-	RLR.Print( string.format( "% 2i Members. %s is the MasterLooter", numGroupMembers, ( mlName or "nil" ) ) )
+--	RLR.Print( string.format( "% 2i Members. %s is the MasterLooter", numGroupMembers, ( mlName or "nil" ) ) )
 	return index, mlName
 end
 

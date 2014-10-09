@@ -22,6 +22,8 @@ function test.before()
 					}
 end
 function test.after()
+	RLR.raidMasterLooterName = nil
+	RLR.raidMasterLooterIndex = nil
 end
 function test.testIsInRaid_False()
 	myParty = {}
@@ -34,9 +36,19 @@ end
 function test.testGetNumGroupMembers()
 	assertEquals( 3, GetNumGroupMembers() )
 end
-function test.testEvent_GROUP_ROSTER_UPDATE()
+function test.testEvent_GROUP_ROSTER_UPDATE_updatesIndex()
 	RLR.GROUP_ROSTER_UPDATE()
+	assertEquals( 3, RLR.raidMasterLooterIndex )
 end
+function test.testEvent_GROUP_ROSTER_UPDATE_updatesName()
+	RLR.GROUP_ROSTER_UPDATE()
+	assertEquals( "name3", RLR.raidMasterLooterName )
+end
+function test.testEvent_GROUP_ROSTER_UPDATE_firedTwice_noChange_name()
+	RLR.GROUP_ROSTER_UPDATE()
+	RLR.GROUP_ROSTER_UPDATE()
+	assertEquals( "name3", RLR.raidMasterLooterName )
+
 function test.testFindLootMaster_index()
 	local index, name = RLR.FindLootMaster()
 	assertEquals( 3, index )
@@ -55,4 +67,6 @@ function test.testFindLootMaster_name_noGroup()
 	local index, name = RLR.FindLootMaster()
 	assertIsNil( name )
 end
+
+
 test.run()
