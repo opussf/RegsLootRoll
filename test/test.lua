@@ -48,7 +48,7 @@ function test.testEvent_GROUP_ROSTER_UPDATE_firedTwice_noChange_name()
 	RLR.GROUP_ROSTER_UPDATE()
 	RLR.GROUP_ROSTER_UPDATE()
 	assertEquals( "name3", RLR.raidMasterLooterName )
-
+end
 function test.testFindLootMaster_index()
 	local index, name = RLR.FindLootMaster()
 	assertEquals( 3, index )

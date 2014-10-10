@@ -35,7 +35,7 @@ end
 function RLR.UpdatePartyInfo()
 	local previousName = RLR.raidMasterLooterName
 	RLR.raidMasterLooterIndex, RLR.raidMasterLooterName = RLR.FindLootMaster()
-	if (not previousName) and not (previousName == RLR.raidMasterLooterName)  then
+	if (not previousName) and not (previousName == RLR.raidMasterLooterName)   then
 		RLR.Print( string.format( "%s (% 2i) is the MasterLooter", RLR.raidMasterLooterName, RLR.raidMasterLooterIndex ) )
 	end
 end
