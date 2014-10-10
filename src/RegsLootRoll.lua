@@ -24,6 +24,14 @@ function RLR.OnLoad()
 	SlashCmdList["RLR"] = function(msg) RLR.Command( msg ); end
 	RLR_Frame:RegisterEvent("GROUP_ROSTER_UPDATE");
 	RLR.Print("is Loaded")
+	--[[
+
+	"CHAT_MSG_PARTY"
+	"CHAT_MSG_PARTY_LEADER"
+	"CHAT_MSG_RAID"
+	"CHAT_MSG_RAID_LEADER"
+	"CHAT_MSG_RAID_WARNING"
+	]]
 end
 function RLR.GROUP_ROSTER_UPDATE()  -- Once debug is done, have these functions alias UpdatePartyInfo
 	--RLR.Print("GROUP_ROSTER_UPDATE")
