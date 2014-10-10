@@ -22,9 +22,20 @@ RLR.raidMasterLooter = {}
 function RLR.OnLoad()
 	SLASH_RLR1 = "/RLR"
 	SlashCmdList["RLR"] = function(msg) RLR.Command( msg ); end
-	RLR_Frame:RegisterEvent("GROUP_ROSTER_UPDATE");
+	RLR_Frame:RegisterEvent("GROUP_ROSTER_UPDATE")
+	RLR_Frame:RegisterEvent("CHAT_MSG_PARTY")
+	RLR_Frame:RegisterEvent("CHAT_MSG_PARTY_LEADER")
+	RLR_Frame:RegisterEvent("CHAT_MSG_RAID")
+	RLR_Frame:RegisterEvent("CHAT_MSG_RAID_LEADER")
 	RLR.Print("is Loaded")
 	--[[
+
+	http://www.wowwiki.com/Events/Party
+	arg1: message
+	arg2: author
+	arg3: language
+	arg11: Chat lineID
+	arg12: Sender GUID
 
 	"CHAT_MSG_PARTY"
 	"CHAT_MSG_PARTY_LEADER"
@@ -37,9 +48,21 @@ function RLR.GROUP_ROSTER_UPDATE()  -- Once debug is done, have these functions 
 	--RLR.Print("GROUP_ROSTER_UPDATE")
 	RLR.UpdatePartyInfo()
 end
+function RLR.ChatMessage(...)
+	local _, message, author = ...
+	--RLR.Print( string.format( "%s said: %s", author, message))
+	if RLR.raidMasterLooterName and RLR.raidMasterLooterName == author then
+		RLR.Print("ATTENTION!  LOOTMASTER Said something!")
+	end
+end
+RLR.CHAT_MSG_PARTY = RLR.ChatMessage
+RLR.CHAT_MSG_PARTY_LEADER = RLR.ChatMessage
+RLR.CHAT_MSG_RAID = RLR.ChatMessage
+RLR.CHAT_MSG_RAID_LEADER = RLR.ChatMessage
 -- End Events
 
 -- Code
+
 function RLR.UpdatePartyInfo()
 	local previousName = RLR.raidMasterLooterName
 	RLR.raidMasterLooterIndex, RLR.raidMasterLooterName = RLR.FindLootMaster()

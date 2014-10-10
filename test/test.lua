@@ -67,6 +67,9 @@ function test.testFindLootMaster_name_noGroup()
 	local index, name = RLR.FindLootMaster()
 	assertIsNil( name )
 end
+function test.testEvent_CHAT_MSG_PARTY_calls()
+	RLR.CHAT_MSG_PARTY({},"msg","author")
+end
 
 
 test.run()
